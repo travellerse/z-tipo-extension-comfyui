@@ -1,7 +1,10 @@
 import sys
 import pkg_resources
 
-import launch
+try:
+    import launch
+except:
+    import installer as launch
 from installer import logger, KGEN_VERSION
 
 
@@ -37,9 +40,7 @@ version_arch = {
 def install_llama_cpp_legacy(cuda_version, has_cuda):
     if cuda_version >= "122":
         cuda_version = "122"
-    package = llama_cpp_python_wheel.format(
-        "AVX2", f"cu{cuda_version}" if has_cuda else "cpu"
-    )
+    package = llama_cpp_python_wheel.format("AVX2", f"cu{cuda_version}" if has_cuda else "cpu")
 
     launch.run_pip(
         f"install {package}",
@@ -90,8 +91,7 @@ def install_llama_cpp():
         logger.info("Installation of llama-cpp-python succeeded")
     except Exception:
         logger.warning(
-            "Installation of llama-cpp-python failed, "
-            "Please try to install it manually or use non-gguf models"
+            "Installation of llama-cpp-python failed, " "Please try to install it manually or use non-gguf models"
         )
 
 
